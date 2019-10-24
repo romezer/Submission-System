@@ -27,7 +27,7 @@ class App extends Component{
     render(){
         return(
             <div className="container">
-                <Header />
+                <Header userAuth={this.props.auth}/>
                 <Router history={history}>
                     <div>
                     
@@ -50,5 +50,9 @@ class App extends Component{
     };
 }
 
+function mapStateToProps({ auth }){
+    return { auth };
+}
 
-export default connect(null, actions) (App);
+
+export default connect(mapStateToProps, actions) (App);

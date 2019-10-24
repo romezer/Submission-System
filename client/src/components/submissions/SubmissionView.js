@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchSubmission } from '../../actions';
+import { Router, Link } from 'react-router-dom';
+import history from '../../history';
 import uniqid from 'uniqid';
 
 class SubmissionView extends React.Component{
@@ -53,6 +55,11 @@ class SubmissionView extends React.Component{
                 <li className="collection-header"><h4>Submission View</h4></li>
                 {this.renderContent()}
                 </ul>
+                <Router history={history}>
+                        <Link to='/Submissions' className="red btn-flat white-text">
+                            Back
+                        </Link>
+                    </Router>
             </div>
         )
     }

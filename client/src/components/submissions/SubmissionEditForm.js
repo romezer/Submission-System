@@ -2,6 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Router, Link } from 'react-router-dom';
 import history from '../../history';
+import uniqid from 'uniqid';
 
 
 class SubmissionEditForm extends React.Component{
@@ -11,9 +12,9 @@ class SubmissionEditForm extends React.Component{
             return Object.keys(this.props.submission).map((keyName, keyIndex) => {
                 if(keyName !== '_id' && keyName !== 'userId' && keyName !== 'date' && keyName !== 'authProp'){
                     return(
-                        <div>
-                        <   label>{keyName}</label>
-                            <Field name={keyName} type="number" component="input" /> 
+                        <div key={uniqid()}> 
+                        <label key={uniqid()}>{keyName}</label>
+                            <Field key={uniqid()} name={keyName} type="number" component="input" /> 
                         </div>
                     )
                    

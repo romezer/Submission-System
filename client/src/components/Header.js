@@ -12,40 +12,28 @@ class Header extends Component{
         history.push(`/${roue}`);
     }
 
+    componentDidMount(){
+        this.props.fetchUser();
+    }
+
     componentDidUpdate(prevProps){
-        if(this.props.auth.isAdmin && prevProps){
-           
-            if(this.props.auth.isAdmin !== prevProps.isAdmin){
-                // this.props.fetchUser();
-            }
-        }
+       
     }
 
-    componentWillMount(){
-        
-
-    }
 
     renderContent = () =>{
-            switch(this.props.auth){
-                case null:
-                    return;
-                case false:
+            if(this.props.userAuth !== null){
+                if(this.props.userAuth.isAdmin){
                     return(
-                        <div>Please Login</div>
-                    )
-                default:
-                    if(this.props.auth.isAdmin){
-                        return(
-                            <ul className="right">
-                            <li to="/Products">
-                                <Link to="/Products" >
-                                Products
-                                </Link>
-                                </li>
-                        <li to="/Submissions" style={{ margin: ' 0 10px' }}>
+                        <ul className="right">
+                            <li to="/Submissions" style={{ margin: ' 0 10px' }}>
                             <Link to="/Submissions">
                             Submissions
+                            </Link>
+                            </li>
+                        <li to="/Products">
+                            <Link to="/Products" >
+                            Products
                             </Link>
                             </li>
                         <li>
@@ -53,15 +41,21 @@ class Header extends Component{
                                 Branches
                             </Link>
                         </li>
-                        </ul>
-                        )
-                    }
-                    else{
-                        return(
-                            <div></div>
-                        )
-                    }
+                    </ul>
+                    )
+                }
+                else{
+                    return(
+                        <div></div>
+                    )
+                }
+                
+            }else{
+                return(
+                    <div></div>
+                )
             }
+            
 }
 
     render(){
@@ -69,9 +63,9 @@ class Header extends Component{
             <div>
                  <nav>
                     <Router history={history}>
-                    <div className="nav-wrapper teal lighten-2">
+                    <div className="nav-wrapper blue darken-2">
                         <Link to={this.props.auth ? '/Products' : '/Login'} className="left brand-logo">
-                        <img src="/logo.jpg" alt="Smiley face" height= "64"/>
+                        <img src="/pb-logo.png" alt="Smiley face" height= "64"/>
                         </Link>
                         {this.renderContent()}
                         

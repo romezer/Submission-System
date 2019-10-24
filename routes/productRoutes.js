@@ -22,7 +22,7 @@ module.exports = app => {
         res.send(product);
     });
 
-    app.get('/api/product', requireLogin, async (req, res) => {
+    app.get('/api/product', requireLogin, requireAdmin, async (req, res) => {
         const product = await Product.findById(req.query.id);
 
         res.send(product);

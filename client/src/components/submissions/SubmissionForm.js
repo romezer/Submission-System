@@ -8,7 +8,6 @@ class SubmissionForm extends React.Component{
   
     renderContent = () =>{
         return this.props.products.map(product =>{
-            if(product.serialNumber){
                 return(
                     <div key={uniqId()}>
                         <div key={uniqId()}>
@@ -18,7 +17,6 @@ class SubmissionForm extends React.Component{
                         <Field key={uniqId()} type="number" name={'p_' + product.serialNumber} component="input" />
                     </div>
                 )
-            }
            
         })
     }

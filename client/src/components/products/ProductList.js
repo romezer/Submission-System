@@ -12,24 +12,63 @@ class ProductsList extends React.Component{
     }
 
     renderList(){
-        return this.props.products.map(product =>{
+        if(this.props.auth !== null){
+            if(this.props.auth.isAdmin){
+                return this.props.products.map(product =>{
+                    return(
+                        <Router key={uniqid()} history={history}>
+                            <li key={uniqid()} className="collection-item avatar">
+                                <i key={uniqid()} className="material-icons circle red">turned_in</i>
+                                <span key={uniqid()}  className="title">{product.serialNumber}</span>
+                            <p key={uniqid()}>{product.description}</p>
+                            <Link key={uniqid()} to={`/ProductEdit/${product._id}`} className="waves-effect waves-light btn-small right blue" style={{ marginTop: '-30px' }}>
+                                <i key={uniqid()} className="material-icons">edit</i>
+                            </Link>
+                        </li>
+                        
+                        </Router>
+                        
+        
+                    )
+                });
+            }
+            else{
+                return(
+                    <div></div>
+                )
+            }
+        }else{
             return(
-                <Router key={uniqid()} history={history}>
-                    <li key={uniqid()} className="collection-item avatar">
-                        <i key={uniqid()} className="material-icons circle red">turned_in</i>
-                        <span key={uniqid()}  className="title">{product.serialNumber}</span>
-                    <p key={uniqid()}>{product.description}</p>
-                    <Link key={uniqid()} to={`/ProductEdit/${product._id}`} className="waves-effect waves-light btn-small right blue" style={{ marginTop: '-30px' }}>
-                        <i key={uniqid()} className="material-icons">edit</i>
-                    </Link>
-                </li>
-                
-                </Router>
-                
-
+                <div></div>
             )
-        });
+        }
     };
+
+    renderAddBtn(){
+        if(this.props.auth !== null){
+            if(this.props.auth.isAdmin){
+                return(
+                    <Router history={history}>
+                        <div className="fixed-action-btn">
+                            <Link to="/ProductNew" className="btn-floating btn-large red">
+                                <i className="material-icons">add</i>
+                            </Link>
+                        </div>
+                    </Router>
+                )
+            }
+            else{
+                return(
+                    <div></div>
+                )
+            }
+        }
+        else{
+            return(
+                <div></div>
+            )
+        }
+    }
 
     render(){
         return(
@@ -38,13 +77,7 @@ class ProductsList extends React.Component{
                 <ul className="collection">
                     {this.renderList()}
                 </ul>
-                <Router history={history}>
-                    <div className="fixed-action-btn">
-                        <Link to="/ProductNew" className="btn-floating btn-large red">
-                            <i className="material-icons">add</i>
-                        </Link>
-                    </div>
-                </Router>
+                {this.renderAddBtn()}
             </div>
         );
         
@@ -52,7 +85,9 @@ class ProductsList extends React.Component{
 }
 
 function mapStateToProps(state){
-    return { products: Object.values(state.products) };
+    return { products: Object.values(state.products),
+                auth : state.auth
+             };
 }
 
 export default connect(mapStateToProps, { fetchProducts })(ProductsList);

@@ -17,7 +17,7 @@ class ProductEdit extends React.Component{
         return(
             <div>
                 <h3>Edit Product</h3>
-                <ProductForm onSubmit={this.onSubmit}/>
+                <ProductForm onSubmit={this.onSubmit} initialValues={this.props.product}/>
             </div>
         )
     }

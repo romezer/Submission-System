@@ -71,9 +71,10 @@ function getSubmissions(){
         
              const db = client.db('test');
              const currentDate = new Date();
-             const month = currentDate.getMonth();
+             const currentMonth = currentDate.getMonth() ;
              const year = currentDate.getFullYear();
-             db.collection('submissions').find({date: { $gt: '01-' + month + '-' + year}}).toArray(function(error, docs){
+            const startDate = new Date("2018-09-01") 
+             db.collection('submissions').find({}).toArray(function(error, docs){
                 if(error){ reject('unable to request'); }
                 resolve(docs);
              })

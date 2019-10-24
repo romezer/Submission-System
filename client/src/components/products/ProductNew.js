@@ -8,6 +8,7 @@ class ProductNew extends React.Component{
         this.props.postProduct(formValues);
     }
 
+
     render(){
         return(
             <div>
