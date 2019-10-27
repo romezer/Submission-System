@@ -48,15 +48,15 @@ function updateSubmission(id, newSubmission){
             if(error){
                 reject('unable to connect');
             }
-        
              const db = client.db('test');
              var o_id = new ObjectId(id);
-             db.collection('submissions').findOneAndUpdate({_id: o_id},
-                                            {$set: newSubmission},{},{}), (err, res)=> {
-                if(err){ reject('unable to request'); }
-                console.log('*** RES: ', res);
-                resolve(res);
-             }
+             db.collection('submissions').findOneAndUpdate(
+                                            {_id: o_id},
+                                            {$set: newSubmission},
+                                            {returnNewDocument : true}, function(error, result) {
+                if(error){ reject('unable to request'); }
+                resolve(result);
+             })
              client.close();
         });
     })
@@ -86,11 +86,64 @@ function getSubmissions(){
     
 }
 
+function getPengingSubmissionUsers(){
+    return new Promise(function(resolve, reject){
+        MongoClient.connect(keys.mongoURI, {useNewUrlParser: true}, (error, client) => {
+            if(error){
+                reject('unable to connect');
+            }
+            const db = client.db('test');
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1;
+            const fulleYear = currentDate.getFullYear();
+            
+            // db.collection('submissions').find({"date": {$gte: "2019-"+currentMonth+"-01T00:00:00.000Z"}}).toArray(function(error, docs){
+            //      console.log('Docs Length: '  + docs.length)
+            //     console.log('##### DOCS: ' + JSON.stringify(docs));
+            // })
+
+            db.collection('users').aggregate([
+                {
+                    $lookup:
+                    {
+                        from:"submissions",
+                        localField: "username", 
+                        foreignField: "authProp",
+                        as: "userJoinSubs"
+                    }
+                },
+                {
+                    $project:
+                    {
+                        username:1,
+                        branchName: 1,
+                        userJoinSubs:{
+                            $filter:{
+                                input: "$userJoinSubs",
+                                as: "userJoinSubs",
+                                cond: {$gte: [ "$$userJoinSubs.date", fulleYear+"-"+currentMonth+"-01T00:00:00.000Z" ]}
+                            }
+                        }
+                    }
+                }
+             ]).toArray(function(error, docs){
+                 if(error){
+                    reject('unable to request');
+                 }
+                 resolve(docs);
+             })
+
+            client.close();
+        });
+    })
+}
+
 
 module.exports = {
     insertSubmission,
     getSubmission,
     updateSubmission,
-    getSubmissions
+    getSubmissions,
+    getPengingSubmissionUsers
 }
 

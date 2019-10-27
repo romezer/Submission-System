@@ -27,9 +27,13 @@ module.exports = (app) => {
     });
 
     app.post('/api/submission/edit', requireLogin, requireAdmin, async (req, res) =>{
-        const submission = await db.updateSubmission(req.body.id, req.body.formValues);
-        console.log('Ret Sub: '. submission);
+        const submission = await db.updateSubmission(req.body.id, req.body.values);
         res.send(submission);
+    });
+
+    app.get('/api/find/pending', requireLogin, requireAdmin, async (req, res) =>{
+        const records = await db.getPengingSubmissionUsers();
+        res.send(records);
     })
 
     

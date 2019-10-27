@@ -16,6 +16,7 @@ import * as actions from '../actions';
  import SubmissionEdit from './submissions/SubmissionEdit';
  import SubmissionThx from './submissions/SubmissionThx';
  import BranchNew from './branches/BranchNew';
+ import Dashboard from './Dashboard';
 
 
 
@@ -42,6 +43,7 @@ class App extends Component{
                         <Route exact path="/SubmissionView/:id" component={SubmissionView} />
                         <Route exact path="/SubmissionEdit/:id" component={SubmissionEdit} />
                         <Route exact path="/SubmissionThx" component={SubmissionThx} />
+                        <Route exact path="/Dashboard" component={Dashboard} />
                         
                     </div>
                 </Router>

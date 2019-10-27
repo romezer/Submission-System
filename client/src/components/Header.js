@@ -26,11 +26,16 @@ class Header extends Component{
                 if(this.props.userAuth.isAdmin){
                     return(
                         <ul className="right">
-                            <li to="/Submissions" style={{ margin: ' 0 10px' }}>
+                        <li to="/Dashboard" style={{ margin: ' 0 10px' }}>
+                            <Link to="/Dashboard">
+                            Dashboard
+                            </Link>
+                        </li>
+                        <li to="/Submissions" style={{ margin: ' 0 10px' }}>
                             <Link to="/Submissions">
                             Submissions
                             </Link>
-                            </li>
+                        </li>
                         <li to="/Products">
                             <Link to="/Products" >
                             Products

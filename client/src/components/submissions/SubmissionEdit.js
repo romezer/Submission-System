@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchSubmission, editSubmission } from '../../actions';
 import SubmissionEditForm from './SubmissionEditForm';
+import _ from 'lodash';
 
 class SubmissionEdit extends React.Component{
 
@@ -10,10 +11,9 @@ class SubmissionEdit extends React.Component{
     }
 
     onSubmit = (formValues) => {
-
+        const values = _.omit(formValues, ['_id']);
         const id = this.props.submission._id; 
-        const res = {id, formValues};
-        
+        const res = {id, values};
         this.props.editSubmission(res);
     }
 

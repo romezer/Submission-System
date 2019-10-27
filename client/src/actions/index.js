@@ -75,6 +75,7 @@ export const fetchSubmission = (id) => async dispatch => {
 }
 
 export const editSubmission = (formValues) => async dispatch => {
+     console.log('editSubmission: ' + JSON.stringify(formValues));
      const res = await axios.post('/api/submission/edit', formValues);
      history.push('/Submissions');
 
