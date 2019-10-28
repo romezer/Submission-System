@@ -10,14 +10,16 @@ class SubmissionNew extends React.Component {
     }
 
     onSubmit = (formValues) => {
+        console.log('Form Values: ' + JSON.stringify(formValues));
         console.log('auth: '  + this.props.auth);
         const currentDate = new Date();
         // const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1 );
         const date = currentDate;
         const userId = this.props.auth._id;
         const authProp = this.props.auth.username;
-        const res = {...formValues, authProp, userId, date}
-        console.log('Res: ' + JSON.stringify(res));
+        const branchName = this.props.auth.branchName;
+        const res = {...formValues, authProp, userId, date, branchName}
+
         this.props.postSubmission(res);
     }
 

@@ -1,18 +1,25 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import uniqId from 'uniqid';
+import _ from 'lodash';
 import history from '../../history';
 
 
 class SubmissionForm extends React.Component{
   
     renderContent = () =>{
-        return this.props.products.map(product =>{
+        const list = _.sortBy(this.props.products, ['category']);
+        return list.map(product =>{
                 return(
                     <div key={uniqId()}>
                         <div key={uniqId()}>
-                        {product.serialNumber}<br/>
-                        <label key={uniqId()}>{product.description}</label>
+                            <div>
+                            {product.serialNumber}
+                            <br></br>
+                            {product.category}
+                            </div>
+                            
+                            <label key={uniqId()}>{product.description}</label>
                         </div>
                         <Field key={uniqId()} type="number" name={'p_' + product.serialNumber} component="input" />
                     </div>

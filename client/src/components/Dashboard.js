@@ -22,7 +22,7 @@ class Dashboard extends React.Component{
         //         return item;
         //     }
         // })
-         console.log('recoreds: ' + JSON.stringify(records.data))
+         
         const submitedList = _.filter(records.data, function(o){
             return o.userJoinSubs.lenth !== 0 && o.username !== 'admin';
         })
@@ -39,7 +39,7 @@ class Dashboard extends React.Component{
                 labels: ['Waiting for submission', 'Submisions current month', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
                     label: 'Amount ',
-                    data: [list.length, submitedList.length, 3, 5, 2, 3],
+                    data: [3, 5, 3, 5, 2, 3],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

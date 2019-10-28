@@ -17,7 +17,8 @@ class ProductForm extends React.Component{
 
                     <label>Serial Number</label>
                     <Field type="text" name="serialNumber" component="input" />
-
+                    <label>Category</label>
+                    <Field type="text" name="category" component="input" />
                     <label>Description</label>
                     <Field type="text" name="description" component="input" />
                     <Router history={history}>

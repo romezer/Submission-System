@@ -22,7 +22,7 @@ export const loginUser = (values) => async dispatch =>{
      const res = await axios.post('/api/login', values);
      const user = await axios.get('/api/current_user');
      if(user.data.isAdmin){
-          history.push('/Submissions');
+          history.push('/Dashboard');
      }else{
           history.push('/SubmissionNew');
      }

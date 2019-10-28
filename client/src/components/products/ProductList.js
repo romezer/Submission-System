@@ -15,21 +15,26 @@ class ProductsList extends React.Component{
         if(this.props.auth !== null){
             if(this.props.auth.isAdmin){
                 return this.props.products.map(product =>{
-                    return(
-                        <Router key={uniqid()} history={history}>
-                            <li key={uniqid()} className="collection-item avatar">
-                                <i key={uniqid()} className="material-icons circle red">turned_in</i>
-                                <span key={uniqid()}  className="title">{product.serialNumber}</span>
-                            <p key={uniqid()}>{product.description}</p>
-                            <Link key={uniqid()} to={`/ProductEdit/${product._id}`} className="waves-effect waves-light btn-small right blue" style={{ marginTop: '-30px' }}>
-                                <i key={uniqid()} className="material-icons">edit</i>
-                            </Link>
-                        </li>
-                        
-                        </Router>
-                        
-        
-                    )
+                        if(product._id !== undefined){
+                            return(
+                                <Router key={uniqid()} history={history}>
+                                    <li key={uniqid()} className="collection-item avatar">
+                                        <i key={uniqid()} className="material-icons circle red">turned_in</i>
+                                        <span key={uniqid()}  className="title">{product.serialNumber}</span>
+                                    <p key={uniqid()}>{product.description}</p>
+                                    <Link key={uniqid()} to={`/ProductEdit/${product._id}`} className="waves-effect waves-light btn-small right blue" style={{ marginTop: '-30px' }}>
+                                        <i key={uniqid()} className="material-icons">edit</i>
+                                    </Link>
+                                </li>
+                                
+                                </Router>
+                                
+                
+                            )
+                        }
+                        else{
+                            return(<div></div>)
+                        }
                 });
             }
             else{

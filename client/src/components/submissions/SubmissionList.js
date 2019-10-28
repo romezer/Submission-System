@@ -18,7 +18,6 @@ class SubmissionList extends React.Component{
 
     renderList(){
         return this.props.submissions.map(submission =>{
-            // currentSubmissions = [];
             if(submission._id !== undefined){
                 var d = new Date(submission.date);
                 const subMonth = d.getMonth() + 1;
