@@ -27,7 +27,7 @@ class Dashboard extends React.Component{
             return o.userJoinSubs.lenth !== 0 && o.username !== 'admin';
         })
         const list = _.filter(records.data, function(o){
-            return o.userJoinSubs.length === 0;
+            return o.userJoinSubs.length === 0 && o.username !== 'admin';
         });
         this.setState({list});
         // console.log("LIST: " + JSON.stringify(list));
