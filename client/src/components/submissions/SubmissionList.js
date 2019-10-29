@@ -108,7 +108,7 @@ class SubmissionList extends React.Component{
 
                 <CsvDownloader list={_.filter(this.props.submissions, function(o){
                    var d = new Date(o.date);
-                   const subMonth = d.getMonth() + 1;
+                //    const subMonth = d.getMonth() + 1;
                    var current = new Date();
                    return d.getMonth()  === current.getMonth() -1 && d.getFullYear() === current.getFullYear();
                     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 import _ from 'lodash';
 
 class CsvDownloader extends React.Component{
@@ -16,7 +16,10 @@ class CsvDownloader extends React.Component{
             }
             filteredList.push({...rec, ...record})
         })
-
+        // const data = [
+        //               {name: 'test',test: 'test', product: {productName: 'productTest', productCategory: 'ctegotyTest'}},
+        //               {name: 'test2',test: 'test2', product: {productName: 'productTest2', productCategory: 'ctegotyTest2'}}
+        //             ]
         return(
             <CSVLink
                  data={filteredList}
