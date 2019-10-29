@@ -20,7 +20,7 @@ class SubmissionEdit extends React.Component{
     render(){
         return(
             <div>
-                <SubmissionEditForm onSubmit={this.onSubmit} submission={this.props.submission} initialValues={this.props.submission}/>
+                <SubmissionEditForm onSubmit={this.onSubmit} submission={_.omit(this.props.submission, 'branchName')} initialValues={_.omit(this.props.submission, 'branchName')}/>
             </div>
         )
     }
