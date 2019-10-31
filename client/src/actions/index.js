@@ -9,7 +9,9 @@ import { FETCH_USER,
          FETCH_SUBMISSION,
          EDIT_SUBMISSION,
          POST_BRANCH,
-         FETCH_BRANCHES
+         FETCH_BRANCHES,
+         EDIT_BRANCH,
+         FETCH_BRANCH
        } from './types';
 import history from '../history';
 
@@ -75,7 +77,6 @@ export const fetchSubmission = (id) => async dispatch => {
 }
 
 export const editSubmission = (formValues) => async dispatch => {
-     console.log('editSubmission: ' + JSON.stringify(formValues));
      const res = await axios.post('/api/submission/edit', formValues);
      history.push('/Submissions');
 
@@ -94,4 +95,19 @@ export const postBranch = (branch) => async dispatch => {
      history.push('/Branches');
 
      dispatch({ type: POST_BRANCH, payload: res.data })
+}
+
+export const fetchBranch = id => async dispatch => {
+     const res = await axios.get(`/api/branch?id=${id}`);
+
+     dispatch({type: FETCH_BRANCH, payload: res.data})
+
+}
+
+export const editBranch = (id, formValues) => async dispatch =>{
+     const res = await axios.put('/api/branch', {...formValues, id});
+     history.push('/Branches');
+
+     dispatch({ type: EDIT_BRANCH, payload: res.data})
+
 }

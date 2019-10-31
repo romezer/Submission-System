@@ -12,49 +12,56 @@ class Dashboard extends React.Component{
 
   async componentDidMount(){
 
+        const products = await axios.get('/api/products');
+        const branches = await axios.get('/api/branches');
         const records = await axios.get('/api/find/pending');
-        // console.log('Records: ' + JSON.stringify(records.data));
-        // console.log('Length: ' + JSON.stringify(records.data).length);
-        // const l = records.data.map(item =>{
-        //     console.log('item: ' + item.userJoinSubs.length)
-        //     if(item.userJoinSubs.length === 0){
-        //         console.log('ITEM: ' + item)
-        //         return item;
-        //     }
-        // })
-         
-        const submitedList = _.filter(records.data, function(o){
-            return o.userJoinSubs.lenth !== 0 && o.username !== 'admin';
-        })
         const list = _.filter(records.data, function(o){
             return o.userJoinSubs.length === 0 && o.username !== 'admin';
         });
         this.setState({list});
-        // console.log("LIST: " + JSON.stringify(list));
-
-        var ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-            type: 'horizontalBar',
+        
+        var char2 = document.getElementById('myChart2');
+        new Chart(char2, {
+            type: 'doughnut',
             data: {
-                labels: ['Waiting for submission', 'Submisions current month', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['Waiting for submission', 'Submisions current month'],
                 datasets: [{
                     label: 'Amount ',
-                    data: [3, 5, 3, 5, 2, 3],
+                    data: [this.state.list.length, records.data.length - this.state.list.length],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                      
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
+                        
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+        
+            }
+        });
+
+
+        var ctx = document.getElementById('myChart');
+         new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Products', 'Branches'],
+                datasets: [{
+                    label: 'Amount ',
+                    data: [products.data.length, branches.data.length],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                    ],
+                    borderColor: [
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -62,6 +69,11 @@ class Dashboard extends React.Component{
             options: {
                 scales: {
                     yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
                         ticks: {
                             beginAtZero: true
                         }
@@ -88,15 +100,54 @@ class Dashboard extends React.Component{
         )
     }
 
+    renderTableRows(){
+        return this.state.list.map((item, i) =>{
+            return(
+                <tr>
+                    <td>{i + 1}</td>
+                    <td>{item.branchName}</td>
+                    <td>{item.username}</td>
+                </tr>
+            )
+        })
+    }
+
     render(){
         return(
             <div>
-                <h3>Dashboard</h3>
-                <canvas id="myChart" width="300" height="200"></canvas>
-                <ul className="collection with-header">
-                    <li className="collection-header"><h4>Pending for submission</h4></li>
+                <h3 style={{fontStyle: 'italic'}}>Dashboard</h3>
+                <div className="row">
+                    <div className="col s12">
+
+                    <h4 style={{fontStyle: 'italic'}}>Pending for submission</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>branch Name</th>
+                                <th>Branch User</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {this.renderTableRows()}
+                        </tbody>
+                    </table>
+                    <br></br>
+                    <br></br>
+                    </div>
+                    <div className="col s6">
+                        <canvas id="myChart" width="300" height="200"></canvas>
+                    </div>
+                    <div className="col s6">
+                        <canvas id="myChart2" width="300" height="200"></canvas>
+                    </div>
+                </div>  
+                
+                {/* <ul className="collection with-header">
+                    <li className="collection-header"><h4 style={{fontStyle: 'italic'}}>Pending for submission</h4></li>
                     {this.renderList()}
-                </ul>
+                </ul> */}
                 
             </div>
             

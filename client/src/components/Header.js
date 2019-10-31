@@ -69,7 +69,7 @@ class Header extends Component{
                  <nav>
                     <Router history={history}>
                     <div className="nav-wrapper blue darken-2">
-                        <Link to={this.props.auth ? '/Products' : '/Login'} className="left brand-logo">
+                        <Link to="/Login" className="left brand-logo">
                         <img src="/pb-logo.png" alt="Smiley face" height= "64"/>
                         </Link>
                         {this.renderContent()}

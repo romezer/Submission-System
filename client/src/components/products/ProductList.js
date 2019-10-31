@@ -11,44 +11,6 @@ class ProductsList extends React.Component{
         this.props.fetchProducts();
     }
 
-    renderList(){
-        if(this.props.auth !== null){
-            if(this.props.auth.isAdmin){
-                return this.props.products.map(product =>{
-                        if(product._id !== undefined){
-                            return(
-                                <Router key={uniqid()} history={history}>
-                                    <li key={uniqid()} className="collection-item avatar">
-                                        <i key={uniqid()} className="material-icons circle red">turned_in</i>
-                                        <span key={uniqid()}  className="title">{product.serialNumber}</span>
-                                    <p key={uniqid()}>{product.description}</p>
-                                    <Link key={uniqid()} to={`/ProductEdit/${product._id}`} className="waves-effect waves-light btn-small right blue" style={{ marginTop: '-30px' }}>
-                                        <i key={uniqid()} className="material-icons">edit</i>
-                                    </Link>
-                                </li>
-                                
-                                </Router>
-                                
-                
-                            )
-                        }
-                        else{
-                            return(<div></div>)
-                        }
-                });
-            }
-            else{
-                return(
-                    <div></div>
-                )
-            }
-        }else{
-            return(
-                <div></div>
-            )
-        }
-    };
-
     renderAddBtn(){
         if(this.props.auth !== null){
             if(this.props.auth.isAdmin){
@@ -61,27 +23,56 @@ class ProductsList extends React.Component{
                         </div>
                     </Router>
                 )
-            }
-            else{
-                return(
-                    <div></div>
-                )
-            }
+            }   
         }
-        else{
+    }
+
+    renderTabelRows(){
+        const list = [];
+        this.props.products.map(product => {
+            if(product._id !== undefined){
+                return list.push(product);
+            }
+        })
+        return list.map( (product, i) =>{
             return(
-                <div></div>
+                <tr>
+                    <td>{i + 1}</td>
+                    <td>{product.serialNumber}</td>
+                    <td>{product.category}</td>
+                    <td>{product.description}</td>
+                    <td>
+                        <Router history={history}>
+                                    <Link key={uniqid()} to={`/ProductEdit/${product._id}`}>
+                                        Edit
+                                    </Link>
+                        </Router>
+                    </td>
+                </tr>
             )
-        }
+        })
     }
 
     render(){
         return(
             <div>
-                <h3>Products List</h3>
-                <ul className="collection">
-                    {this.renderList()}
-                </ul>
+                <h3 style={{fontStyle: 'italic'}}>Products</h3>
+                <table>
+                    <thead>
+                        <tr>
+                        <th></th>
+                        <th>Serial Number</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                        </tr>
+                    </thead>
+                        
+                    <tbody>
+                        {this.renderTabelRows()}
+                    </tbody>
+                </table>
+              
                 {this.renderAddBtn()}
             </div>
         );

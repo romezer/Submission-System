@@ -10,14 +10,22 @@ class BranchList extends React.Component{
         this.props.fetchBranches();
     }
 
-    renderList(){
-        return this.props.branches.map(branch => {
+
+    rendeTableRows(){
+        return this.props.branches.map((branch, i) =>{
             return(
-                <li key={uniqid()} key={branch._id} className="collection-item avatar">
-                <i key={uniqid()} className="material-icons circle red">turned_in</i>
-                <span key={uniqid()}  className="title">{branch.branchName}</span>
-                <p key={uniqid()}>{branch.username}</p>
-                </li>
+                <tr>
+                    <td>{i + 1}</td>
+                    <td>{branch.branchName}</td>
+                    <td>{branch.username}</td>
+                    <td>
+                        <Router history={history}>
+                            <Link to={`/BranchEdit/${branch._id}`}>
+                                Edit                            
+                            </Link>
+                        </Router>
+                    </td>
+                </tr>
             )
         })
     }
@@ -25,10 +33,24 @@ class BranchList extends React.Component{
     render(){
         return(
             <div>
-                <h3>Branch List</h3>
-                <ul className="collection">
-                    {this.renderList()}
-                </ul>
+                <h3 style={{fontStyle: 'italic'}}>Branches</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Branch Name</th>
+                            <th>Branch User</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {this.rendeTableRows()}
+                    </tbody>
+                </table>
+
+               
                 <Router history={history}>
                     <div className="fixed-action-btn">
                         <Link to="/BranchNew" className="btn-floating btn-large red">
