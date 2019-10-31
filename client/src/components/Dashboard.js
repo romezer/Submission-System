@@ -124,7 +124,7 @@ class Dashboard extends React.Component{
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>branch Name</th>
+                                <th>Branch Name</th>
                                 <th>Branch User</th>
                             </tr>
                         </thead>

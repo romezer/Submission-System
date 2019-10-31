@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { fetchSubmission } from '../../actions';
 import { Router, Link } from 'react-router-dom';
 import history from '../../history';
+import moment from 'moment';
+import _ from 'lodash';
 import uniqid from 'uniqid';
 
 class SubmissionView extends React.Component{
@@ -10,51 +12,88 @@ class SubmissionView extends React.Component{
         this.props.fetchSubmission(this.props.match.params.id);
     }
 
-    renderContent(){
+  
+
+    renderTableRows(){
         if(this.props.submission){
-            return Object.keys(this.props.submission).map((keyName, keyIndex) => {
-                
-                if(keyName !== '_id' && keyName !== 'userId'){
-                    if(keyName === 'date'){
-                        return(
-                            <li key={uniqid()} className="collection-item"><label key={uniqid()}>Date of submission:</label> {this.props.submission[keyName].toString()}</li>
-
-                        )
-                    }
-                    else{
-                        if(keyName === 'authProp'){
-                            return(
-                                <li key={uniqid()} className="collection-item"><label key={uniqid()}>Submitted By:</label> {this.props.submission[keyName]}</li>
-                            )
-                        }
-                        else{
-                            return(
-                                <li key={uniqid()} className="collection-item">
-                                    <label key={uniqid()}>{keyName}:</label>  {this.props.submission[keyName]}
-                                </li>
-                            )
-                        }
-                    }
+          return  _.map(this.props.submission, function(value, key){
+                if(_.startsWith(key, 'p_')){
+                    return(
+                        <tr>
+                            <td>{_.trimStart(key, 'p_')}</td>
+                            <td>{value}</td>
+                        </tr>
+                    )
                 }
-                   
-              })
+            })
         }
-        else{
-            return(
-                <div>panding...</div>
-            )
-            
-        }
+    }
 
+    renderDetailRows(){
+        if(this.props.submission){
+          return  _.map(_.pick(this.props.submission, ['date', 'authProp']), function(value, key){
+              if(key === 'date'){
+                return(
+                    <tr>
+                        <td>Date of submission</td>
+                        <td>
+                            {moment(value).format('DD-MM-YYYY')}
+                        </td>
+                    </tr>
+                )
+              }else{
+                return(
+             
+                    <tr>
+                        <td>Submitted By</td>
+                        <td>{value}</td>
+                    </tr>
+            )
+
+              }
+
+          })
+        }
     }
 
     render(){
         return(
             <div>
-                <ul className="collection with-header">
+                <h3 style={{fontStyle: 'italic'}}>Submission View</h3>
+                <table>
+                    <thead>
+                        <tr>
+                        <th>product</th>
+                        <th>Quantity</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {this.renderTableRows()}
+                    </tbody>
+                </table>
+
+                <h5>Details</h5>
+
+                <table>
+                    <thead>
+                        <tr>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {this.renderDetailRows()}
+                    </tbody>
+                </table>
+                <br></br>
+                
+
+                {/* <ul className="collection with-header">
                 <li className="collection-header"><h4>Submission View</h4></li>
                 {this.renderContent()}
-                </ul>
+                </ul> */}
+
                 <Router history={history}>
                         <Link to='/Submissions' className="red btn-flat white-text">
                             Back

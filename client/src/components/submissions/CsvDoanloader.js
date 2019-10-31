@@ -1,9 +1,21 @@
 import React from 'react';
 import { CSVLink } from "react-csv";
 import moment from 'moment';
+import axios from 'axios';
 import _ from 'lodash';
 
 class CsvDownloader extends React.Component{
+
+    state = {
+        products: []
+    }
+
+  async  componentDidMount(){
+        const records = await axios.get('/api/products');
+        this.setState({
+            products: records.data
+        })
+    }
  
 
     render(){
@@ -19,48 +31,78 @@ class CsvDownloader extends React.Component{
         })
 
         const rows = [];
+        const  headers = [
+            { label: "Serial Number", key: "Serial Number" },
+            { label: "Category", key: "Category" },
+            { label: "Description", key: "Description" }
+          ];
         const producstList = [];
          
         this.props.list.map((item, i) => {
             _.map(item, function(value, key){
-                if(true){
                     if(_.startsWith(key,'p_')){
-                        producstList.push(key);
+                        producstList.push(_.trimStart(key, 'p_'));
                     }
-                }
+                    if(_.startsWith(key, 'authProp')){
+                        headers.push(
+                            {
+                                label: value,
+                                key: value
+                            }
+                        )
+                    }
+                   
             })
         })
+
+        var firstRow = {};
+        this.props.list.map(sub => {
+            
+            
+            _.set(firstRow, sub.authProp, sub.branchName);
+            firstRow = {...firstRow}
+        })
+        rows.push(firstRow)
         
-        _.uniq(producstList).map(product => {
+
+        var secondRow = {};
+        this.props.list.map(sub => {
+            _.set(secondRow, sub.authProp, moment(sub.date).format('DD-MM-YYYY'))
+            secondRow = {...secondRow}
+        })
+       
+        rows.push(secondRow);
+        
+        // _.uniq(producstList)
+        this.state.products.map(product => {
             var row = {};
-            row.Product = product;
+            _.set(row, 'Serial Number', product.serialNumber);
+            row.Category = product.category;
+            row.Description = product.description;
             this.props.list.map((item, i) => {
-                if(_.pick(item, [product, 'authProp'])){
-                    const temp = _.pick(item, [product, 'authProp', 'branchName', 'date']);
+                if(_.pick(item, ['p_' + product.serialNumber, 'authProp'])){
+                    const temp = _.pick(item, ['p_' + product.serialNumber, 'authProp', 'branchName', 'date']);
 
-                    const user = temp.authProp + '_ ' + temp.branchName + '_ ' + moment(temp.date).format();
-                    const amount = _.get(item, [product]);
-                    const ob = _.set(_.omit(temp, product, ['authProp', 'date', 'branchName']) , user, amount)
-                    // const obj = _.set(ob, _.get(item,['authProp']) , _.get(item, ['branchName']))
+                    const user = temp.authProp ;
+                    const amount = _.get(item, ['p_' + product.serialNumber]);
+                    const ob = _.set(_.omit(temp, 'p_' + product.serialNumber, ['authProp', 'date', 'branchName']) , user, amount)
                     row = {...row, ...ob }
+                    console.log('row: ' + JSON.stringify(row))
                     
-                   // row.push(_.pick(item, [product, 'authProp']));
+                  
                 }
-
             })
-            // console.log("### Row: " + JSON.stringify(row))
+         
             rows.push(row);
            
         })
+       // rows.push(firstRow);
+        //rows.push(secondRow)
+     
 
-        // console.log('Rows: ' + JSON.stringify(rows))
-
-        // const data = [
-        //               {name: 'test',test: 'test', product: {productName: 'productTest', productCategory: 'ctegotyTest'}},
-        //               {name: 'test2',test: 'test2', product: {productName: 'productTest2', productCategory: 'ctegotyTest2'}}
-        //             ]
         return(
             <CSVLink
+                headers={headers}
                  data={rows}
                  filename={this.props.name}
                  className='btn-small green'>

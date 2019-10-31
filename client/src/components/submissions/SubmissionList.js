@@ -9,8 +9,6 @@ import moment from 'moment';
 
 
 import CsvDownloader from './CsvDoanloader';
-var currentSubmissions = [];
-const lastMonthSubmissions = [];
 class SubmissionList extends React.Component{
     
     componentDidMount(){
@@ -40,7 +38,7 @@ class SubmissionList extends React.Component{
                                     <Link key={uniqid()} to={`/SubmissionView/${submission._id}`}>
                                          View
                                      </Link>
-                                     &nbsp;&nbsp;
+                                     &nbsp;&nbsp;&nbsp;
                                      <Link key={uniqid()} to={`/SubmissionEdit/${submission._id}`}>
                                        Edit
                                      </Link>
