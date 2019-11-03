@@ -87,7 +87,6 @@ class CsvDownloader extends React.Component{
                     const amount = _.get(item, ['p_' + product.serialNumber]);
                     const ob = _.set(_.omit(temp, 'p_' + product.serialNumber, ['authProp', 'date', 'branchName']) , user, amount)
                     row = {...row, ...ob }
-                    console.log('row: ' + JSON.stringify(row))
                     
                   
                 }
@@ -96,8 +95,6 @@ class CsvDownloader extends React.Component{
             rows.push(row);
            
         })
-       // rows.push(firstRow);
-        //rows.push(secondRow)
      
 
         return(

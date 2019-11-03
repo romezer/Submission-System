@@ -18,7 +18,8 @@ class SubmissionList extends React.Component{
 
     renderTabelRows(month, year){
         const list = []; 
-        this.props.submissions.map(submission =>{
+        const filteredList = _.sortBy(this.props.submissions, ['date']);
+        filteredList.map(submission =>{
             if(submission._id !== undefined){
                 if(year === moment(submission.date).year() && month === moment(submission.date).month()){
                     list.push(submission);
@@ -28,10 +29,10 @@ class SubmissionList extends React.Component{
         })
         return list.map((submission, i) =>{
                     return(
-                        <tr>
-                            <td>{i + 1}</td>
-                            <td>{submission.authProp}</td>
-                            <td>{submission.branchName}</td>
+                        <tr key={i}>
+                            <td key={i + 1}>{i + 1}</td>
+                            <td key={i + 2}>{submission.authProp}</td>
+                            <td key={i + 3}>{submission.branchName}</td>
                             <td>{moment(submission.date).format("DD-MMM-YYYY") }</td>
                             <td>
                                 <Router history={history}>

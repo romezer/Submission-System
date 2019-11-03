@@ -19,9 +19,9 @@ class SubmissionView extends React.Component{
           return  _.map(this.props.submission, function(value, key){
                 if(_.startsWith(key, 'p_')){
                     return(
-                        <tr>
-                            <td>{_.trimStart(key, 'p_')}</td>
-                            <td>{value}</td>
+                        <tr key={key}>
+                            <td key={key + 1}>{_.trimStart(key, 'p_')}</td>
+                            <td key={key + 2}>{value}</td>
                         </tr>
                     )
                 }
@@ -34,9 +34,9 @@ class SubmissionView extends React.Component{
           return  _.map(_.pick(this.props.submission, ['date', 'authProp']), function(value, key){
               if(key === 'date'){
                 return(
-                    <tr>
-                        <td>Date of submission</td>
-                        <td>
+                    <tr key={key}>
+                        <td key={key + 1}>Date of submission</td>
+                        <td key={key + 2}>
                             {moment(value).format('DD-MM-YYYY')}
                         </td>
                     </tr>
@@ -44,9 +44,9 @@ class SubmissionView extends React.Component{
               }else{
                 return(
              
-                    <tr>
-                        <td>Submitted By</td>
-                        <td>{value}</td>
+                    <tr key={key + 3}>
+                        <td> key={key + 4}Submitted By</td>
+                        <td key={key + 5}>{value}</td>
                     </tr>
             )
 

@@ -4,6 +4,7 @@ import { Router, Link } from 'react-router-dom';
 import { fetchProducts } from '../../actions';
 import history from '../../history';
 import uniqid from 'uniqid';
+import _ from 'lodash';
 
 
 class ProductsList extends React.Component{
@@ -16,9 +17,9 @@ class ProductsList extends React.Component{
             if(this.props.auth.isAdmin){
                 return(
                     <Router history={history}>
-                        <div className="fixed-action-btn">
+                        <div key="1" className="fixed-action-btn">
                             <Link to="/ProductNew" className="btn-floating btn-large red">
-                                <i className="material-icons">add</i>
+                                <i key="2" className="material-icons">add</i>
                             </Link>
                         </div>
                     </Router>
@@ -28,22 +29,23 @@ class ProductsList extends React.Component{
     }
 
     renderTabelRows(){
-        const list = [];
-        this.props.products.map(product => {
+       const list = [];
+       const sortedList =  _.sortBy(this.props.products, ['category'])
+       sortedList.map(product => {
             if(product._id !== undefined){
-                return list.push(product);
+                 list.push(product);
             }
         })
         return list.map( (product, i) =>{
             return(
-                <tr>
-                    <td>{i + 1}</td>
-                    <td>{product.serialNumber}</td>
-                    <td>{product.category}</td>
-                    <td>{product.description}</td>
+                <tr key={i}>
+                    <td key={i + 1}>{i + 1}</td>
+                    <td key={i + 2}>{product.serialNumber}</td>
+                    <td key={i + 3}>{product.category}</td>
+                    <td key={i + 4}>{product.description}</td>
                     <td>
                         <Router history={history}>
-                                    <Link key={uniqid()} to={`/ProductEdit/${product._id}`}>
+                                    <Link  to={`/ProductEdit/${product._id}`}>
                                         Edit
                                     </Link>
                         </Router>

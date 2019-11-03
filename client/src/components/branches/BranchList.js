@@ -14,10 +14,10 @@ class BranchList extends React.Component{
     rendeTableRows(){
         return this.props.branches.map((branch, i) =>{
             return(
-                <tr>
-                    <td>{i + 1}</td>
-                    <td>{branch.branchName}</td>
-                    <td>{branch.username}</td>
+                <tr key={i}>
+                    <td key = {i + 1}>{i + 1}</td>
+                    <td key = {i + 2}>{branch.branchName}</td>
+                    <td key = {i + 3}>{branch.username}</td>
                     <td>
                         <Router history={history}>
                             <Link to={`/BranchEdit/${branch._id}`}>

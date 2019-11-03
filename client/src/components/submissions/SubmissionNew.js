@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { postSubmission, fetchProducts, fetchUser } from '../../actions';
 import SubmissionForm from './SubmissionForm';
+import _ from 'lodash';
 
 class SubmissionNew extends React.Component {
     componentDidMount(){
@@ -10,10 +11,8 @@ class SubmissionNew extends React.Component {
     }
 
     onSubmit = (formValues) => {
-        console.log('Form Values: ' + JSON.stringify(formValues));
-        console.log('auth: '  + this.props.auth);
+        
         const currentDate = new Date();
-        // const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1 );
         const date = currentDate;
         const userId = this.props.auth._id;
         const authProp = this.props.auth.username;
@@ -26,7 +25,7 @@ class SubmissionNew extends React.Component {
     render(){
         return(
             <div>
-                <SubmissionForm products={this.props.products} onSubmit={this.onSubmit}/>
+                <SubmissionForm products={this.props.products} onSubmit={this.onSubmit} />
             </div>
         )
     }

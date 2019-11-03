@@ -27,7 +27,7 @@ class Dashboard extends React.Component{
                 labels: ['Waiting for submission', 'Submisions current month'],
                 datasets: [{
                     label: 'Amount ',
-                    data: [this.state.list.length, records.data.length - this.state.list.length],
+                    data: [this.state.list.length, records.data.length - this.state.list.length - 1],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -103,10 +103,10 @@ class Dashboard extends React.Component{
     renderTableRows(){
         return this.state.list.map((item, i) =>{
             return(
-                <tr>
-                    <td>{i + 1}</td>
-                    <td>{item.branchName}</td>
-                    <td>{item.username}</td>
+                <tr key = {i + 3}>
+                    <td key={i}>{i + 1}</td>
+                    <td key={i + 1}>{item.branchName}</td>
+                    <td key={i + 2}>{item.username}</td>
                 </tr>
             )
         })

@@ -6,22 +6,40 @@ import history from '../../history';
 
 
 class SubmissionForm extends React.Component{
-  
+
+    
     renderContent = () =>{
+        
+        const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+            <div>
+              <label>{label}</label>
+              <div>
+                <input {...input} placeholder={label} type={type}/>
+                {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+              </div>
+            </div>
+          )
+
         const list = _.sortBy(this.props.products, ['category']);
         return list.map(product =>{
                 return(
-                    <div key={uniqId()}>
-                        <div key={uniqId()}>
+                    <div key={product._id}>
+                        <div key={product.serialNumber}>
                             <div>
                             {product.serialNumber}
                             <br></br>
                             {product.category}
                             </div>
                             
-                            <label key={uniqId()}>{product.description}</label>
+                            {/* <label key={uniqId()}>{product.description}</label> */}
                         </div>
-                        <Field key={uniqId()} type="number" name={'p_' + product.serialNumber} component="input" />
+                        <Field key={uniqId()}
+                         type="number"
+                         name={'p_' + product.serialNumber} 
+                         component={renderField}
+                         label={product.description}
+                         
+                          />
                     </div>
                 )
            
@@ -29,6 +47,11 @@ class SubmissionForm extends React.Component{
     }
 
      onSubmit = (formValues) => {
+        this.props.products.map( product =>{
+            if(!_.has(formValues, 'p_' + product.serialNumber)){
+                _.set(formValues, 'p_' + product.serialNumber, 0);
+            }
+        })
         this.props.onSubmit(formValues);
         history.push('/SubmissionThx');
     }
@@ -50,6 +73,9 @@ class SubmissionForm extends React.Component{
         )
     }
 }
+
+
+
 
 export default reduxForm({
     form: 'submissionForm'
