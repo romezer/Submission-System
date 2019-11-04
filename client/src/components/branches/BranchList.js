@@ -10,6 +10,22 @@ class BranchList extends React.Component{
         this.props.fetchBranches();
     }
 
+    renderAddBtn(){
+        if(this.props.auth !== null){
+            if(this.props.auth.isAdmin){
+                return(
+                    <Router history={history}>
+                        <div className="fixed-action-btn">
+                            <Link to="/BranchNew" className="btn-floating btn-large red">
+                                <i className="material-icons">add</i>
+                            </Link>
+                        </div>
+                    </Router>
+                )
+            }   
+        }
+    }
+
 
     rendeTableRows(){
         return _.uniqBy(this.props.branches, '_id').map((branch, i) =>{
@@ -50,14 +66,8 @@ class BranchList extends React.Component{
                     </tbody>
                 </table>
 
-               
-                <Router history={history}>
-                    <div className="fixed-action-btn">
-                        <Link to="/BranchNew" className="btn-floating btn-large red">
-                            <i className="material-icons">add</i>
-                        </Link>
-                    </div>
-                </Router>
+               {this.renderAddBtn()}
+         
             </div>
         );
     }
