@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Router, Link } from 'react-router-dom';
 import { fetchProducts } from '../../actions';
 import history from '../../history';
-import uniqid from 'uniqid';
 import _ from 'lodash';
 
 
@@ -36,7 +35,7 @@ class ProductsList extends React.Component{
                  list.push(product);
             }
         })
-        return list.map( (product, i) =>{
+        return _.uniqBy(list, '_id').map( (product, i) =>{
             return(
                 <tr key={i}>
                     <td key={i + 1}>{i + 1}</td>

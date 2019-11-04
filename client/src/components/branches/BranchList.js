@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchBranches } from '../../actions';
 import { Router, Link } from 'react-router-dom';
 import history from '../../history';
-import uniqid from 'uniqid';
+import _ from 'lodash';
 
 class BranchList extends React.Component{
     componentDidMount(){
@@ -12,7 +12,7 @@ class BranchList extends React.Component{
 
 
     rendeTableRows(){
-        return this.props.branches.map((branch, i) =>{
+        return _.uniqBy(this.props.branches, '_id').map((branch, i) =>{
             return(
                 <tr key={i}>
                     <td key = {i + 1}>{i + 1}</td>

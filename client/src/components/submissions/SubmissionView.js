@@ -45,7 +45,7 @@ class SubmissionView extends React.Component{
                 return(
              
                     <tr key={key + 3}>
-                        <td> key={key + 4}Submitted By</td>
+                        <td key={key + 4}> Submitted By</td>
                         <td key={key + 5}>{value}</td>
                     </tr>
             )
