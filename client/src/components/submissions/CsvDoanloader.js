@@ -13,7 +13,7 @@ class CsvDownloader extends React.Component{
   async  componentDidMount(){
         const records = await axios.get('/api/products');
         this.setState({
-            products: records.data
+            products: _.sortBy(records.data, ['category'])
         })
     }
  
@@ -93,6 +93,7 @@ class CsvDownloader extends React.Component{
             })
          
             rows.push(row);
+            
            
         })
      
