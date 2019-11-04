@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions';
 import _ from 'lodash';
 import Chart from 'chart.js';
 import uniqid from 'uniqid';
@@ -11,7 +13,7 @@ class Dashboard extends React.Component{
     }
 
   async componentDidMount(){
-
+        this.props.fetchUser();
         const products = await axios.get('/api/products');
         const branches = await axios.get('/api/branches');
         const records = await axios.get('/api/find/pending');
@@ -20,7 +22,8 @@ class Dashboard extends React.Component{
         });
         this.setState({list});
         
-        var char2 = document.getElementById('myChart2');
+        if(this.state.list.length !== null && records.data.length !== null){
+            var char2 = document.getElementById('myChart2');
         new Chart(char2, {
             type: 'doughnut',
             data: {
@@ -81,6 +84,8 @@ class Dashboard extends React.Component{
                 }
             }
         });
+        }
+        
     }
 
     renderList(){
@@ -155,4 +160,8 @@ class Dashboard extends React.Component{
     }
 }
 
-export default Dashboard;
+function mapStateToProps({ auth }){
+    return { auth };
+}
+
+export default connect(mapStateToProps, { fetchUser })(Dashboard);

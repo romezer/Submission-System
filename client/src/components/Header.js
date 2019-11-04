@@ -13,17 +13,12 @@ class Header extends Component{
     }
 
     componentDidMount(){
-        this.props.fetchUser();
+         this.props.fetchUser();
     }
-
-    componentDidUpdate(prevProps){
-       
-    }
-
 
     renderContent = () =>{
-            if(this.props.userAuth !== null){
-                if(this.props.userAuth.isAdmin){
+            if(this.props.auth !== null){
+                if(this.props.auth.isAdmin){
                     return(
                         <ul className="right">
                         <li to="/Dashboard" style={{ margin: ' 0 10px' }}>

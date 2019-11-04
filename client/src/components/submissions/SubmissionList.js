@@ -17,6 +17,7 @@ class SubmissionList extends React.Component{
 
 
     renderTabelRows(month, year){
+  
         const list = []; 
         const filteredList = _.sortBy(this.props.submissions, ['date']);
         filteredList.map(submission =>{
@@ -53,70 +54,80 @@ class SubmissionList extends React.Component{
 
 
     render(){
+        if(this.props.auth !== null){
+            if(!this.props.auth.isAdmin){
+                history.push('/Login');
+            }
+            return(
+                <div>
+                    <h3 style={{fontStyle: 'italic'}}>Submissions</h3>
+                    <h5>Current month submissions</h5>
+    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Branch User</th>
+                                <th>Branch Name</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                            
+                        <tbody>
+                            {this.renderTabelRows(moment(new Date()).month(), moment(new Date()).year())}
+                        </tbody>
+                    </table>
+                    <br></br>
+    
+                   <CsvDownloader list={_.filter(this.props.submissions, function(o){
+                       return moment(o.date).month()  === moment(new Date).month() && moment(o.date).year() === moment(new Date).year();
+                        }
+                       )} 
+                       name="Current Month Report.csv"/>
+    
+                    <br></br>
+                    <br></br>
+                    <h5>Last month submissions</h5>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Branch User</th>
+                                <th>Branch Name</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                            
+                        <tbody>
+                            {this.renderTabelRows(moment(new Date()).subtract(1, 'month').month(), moment(new Date()).subtract(1, 'month').year())}
+                        </tbody>
+                    </table>
+                    <br></br>
+    
+                    <CsvDownloader list={_.filter(this.props.submissions, function(o){
+                       var d = new Date(o.date);
+                    
+                       var current = new Date();
+                       return moment(o.date).month()  === moment(new Date).subtract(1, 'month').month() && moment(o.date).year() === moment(new Date).subtract(1, 'month').year();
+                        }
+                       )}  name="Last Month Report.csv"/>
+                </div>
+            )  
+        }
         return(
-            <div>
-                <h3 style={{fontStyle: 'italic'}}>Submissions</h3>
-                <h5>Current month submissions</h5>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Branch User</th>
-                            <th>Branch Name</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                        
-                    <tbody>
-                        {this.renderTabelRows(moment(new Date()).month(), moment(new Date()).year())}
-                    </tbody>
-                </table>
-                <br></br>
-
-               <CsvDownloader list={_.filter(this.props.submissions, function(o){
-                   return moment(o.date).month()  === moment(new Date).month() && moment(o.date).year() === moment(new Date).year();
-                    }
-                   )} 
-                   name="Current Month Report.csv"/>
-
-                <br></br>
-                <br></br>
-                <h5>Last month submissions</h5>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Branch User</th>
-                            <th>Branch Name</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                        
-                    <tbody>
-                        {this.renderTabelRows(moment(new Date()).subtract(1, 'month').month(), moment(new Date()).subtract(1, 'month').year())}
-                    </tbody>
-                </table>
-                <br></br>
-
-                <CsvDownloader list={_.filter(this.props.submissions, function(o){
-                   var d = new Date(o.date);
-                
-                   var current = new Date();
-                   return moment(o.date).month()  === moment(new Date).subtract(1, 'month').month() && moment(o.date).year() === moment(new Date).subtract(1, 'month').year();
-                    }
-                   )}  name="Last Month Report.csv"/>
-            </div>
-        )    
+            <div>pending...</div>
+        )
+  
     }
     
 }
 
 function mapStateToProps(state){
-    return { submissions: Object.values(state.submissions) };
+    return { submissions: Object.values(state.submissions),
+            auth : state.auth };
 }
 
 export default connect(mapStateToProps, { fetchSubmissions })(SubmissionList);

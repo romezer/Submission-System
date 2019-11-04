@@ -23,6 +23,8 @@ class ProductsList extends React.Component{
                         </div>
                     </Router>
                 )
+            }else{
+                history.push('/Login');
             }   
         }
     }

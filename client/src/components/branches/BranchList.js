@@ -22,6 +22,8 @@ class BranchList extends React.Component{
                         </div>
                     </Router>
                 )
+            }else{
+                history.push('/Login');
             }   
         }
     }
@@ -74,7 +76,8 @@ class BranchList extends React.Component{
 }
 
 function mapStateToProps(state){
-    return { branches: Object.values(state.branches) };
+    return { branches: Object.values(state.branches),
+        auth : state.auth };
 }
 
 export default connect(mapStateToProps, { fetchBranches })(BranchList);
