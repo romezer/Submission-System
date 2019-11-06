@@ -59,7 +59,7 @@ class CsvDownloader extends React.Component{
         this.props.list.map(sub => {
             
             
-            _.set(firstRow, sub.authProp, sub.branchName);
+            _.set(firstRow, sub.authProp + '_' + sub._id, sub.branchName);
             firstRow = {...firstRow}
         })
         rows.push(firstRow)
