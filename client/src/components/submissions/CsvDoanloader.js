@@ -67,7 +67,7 @@ class CsvDownloader extends React.Component{
 
         var secondRow = {};
         this.props.list.map(sub => {
-            _.set(secondRow, sub.authProp, moment(sub.date).format('DD-MM-YYYY'))
+            _.set(secondRow, sub.authProp + '_' + sub._id, moment(sub.date).format('DD-MM-YYYY'))
             secondRow = {...secondRow}
         })
        
