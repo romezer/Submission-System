@@ -47,7 +47,7 @@ class CsvDownloader extends React.Component{
                         headers.push(
                             {
                                 label: value,
-                                key: value
+                                key: value + '_' + item._id // 1.1
                             }
                         )
                     }
@@ -83,7 +83,7 @@ class CsvDownloader extends React.Component{
                 if(_.pick(item, ['p_' + product.serialNumber, 'authProp'])){
                     const temp = _.pick(item, ['p_' + product.serialNumber, 'authProp', 'branchName', 'date']);
 
-                    const user = temp.authProp ;
+                    const user = temp.authProp + '_' + item._id;
                     const amount = _.get(item, ['p_' + product.serialNumber]);
                     const ob = _.set(_.omit(temp, 'p_' + product.serialNumber, ['authProp', 'date', 'branchName']) , user, amount)
                     row = {...row, ...ob }
