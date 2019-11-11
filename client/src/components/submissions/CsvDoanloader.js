@@ -1,5 +1,7 @@
 import React from 'react';
 import { CSVLink } from "react-csv";
+import { connect } from 'react-redux';
+import { fetchProducts } from '../../actions';
 import moment from 'moment';
 import axios from 'axios';
 import _ from 'lodash';
@@ -7,20 +9,21 @@ import _ from 'lodash';
 class CsvDownloader extends React.Component{
 
     state = {
-        products: []
+        products: this.props.products
     }
 
   async  componentDidMount(){
-        const records = await axios.get('/api/products');
-        this.setState({
-            products: _.sortBy(records.data, ['category'])
-        })
+    this.props.fetchProducts();
+        // const records = await axios.get('/api/products');
+        // this.setState({
+        //     products: _.sortBy(records.data, ['category'])
+        // })
     }
  
 
     render(){
         const filteredList = [];
-         this.props.list.map( item =>{
+         _.map(this.props.list, item =>{
             const record = _.omit(item, ['_id', 'userId', 'date', 'authProp', 'branchName']);
             const rec = {
                 Branch: item.authProp,
@@ -38,7 +41,7 @@ class CsvDownloader extends React.Component{
           ];
         const producstList = [];
          
-        this.props.list.map((item, i) => {
+        _.map(this.props.list, (item, i) => {
             _.map(item, function(value, key){
                     if(_.startsWith(key,'p_')){
                         producstList.push(_.trimStart(key, 'p_'));
@@ -56,7 +59,7 @@ class CsvDownloader extends React.Component{
         })
 
         var firstRow = {};
-        this.props.list.map(sub => {
+        _.map(this.props.list, sub => {
             
             
             _.set(firstRow, sub.authProp + '_' + sub._id, sub.branchName);
@@ -111,4 +114,10 @@ class CsvDownloader extends React.Component{
 
 }
 
-export default CsvDownloader;
+function mapStateToProps(state){
+    return { products: Object.values(state.products),
+                auth : state.auth
+             };
+}
+
+export default connect(mapStateToProps, { fetchProducts })(CsvDownloader);

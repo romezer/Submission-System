@@ -9,13 +9,19 @@ const UserSchema = new Schema({
     branchName: String
 });
 
-UserSchema.methods.verifyPassword = async (password) => {
-    const user = await UserSchema.findOne({ password: Hash.generate(password) });
+UserSchema.methods.verifyPassword =  function(password){
+    const myModal = mongoose.model('users');
+    const user =  myModal.findOne({ password: Hash.generate(password) });
     if(!user){
         return false;
     }
     return true;
 }
+
+UserSchema.statics.findByPassword = function(password, hashPass) {
+  const res =   Hash.verify(password, hashPass)
+    return res;
+  };
 
 
 mongoose.model('users', UserSchema);

@@ -8,6 +8,7 @@ export const POST_SUBMISSION = 'post_submission';
 export const FETCH_SUBMISSION = 'fetch_submission';
 export const FETCH_SUBMISSIONS = 'fetch_submissions';
 export const EDIT_SUBMISSION = 'edit_submission';
+export const DELETE_SUBMISSION = 'delete_submission';
 export const FETCH_BRANCHES = 'fetch_branches';
 export const POST_BRANCH = 'post_branch';
 export const EDIT_BRANCH = 'edit_branch';

@@ -5,7 +5,6 @@ import { Router, Link } from 'react-router-dom';
 import history from '../../history';
 import moment from 'moment';
 import _ from 'lodash';
-import uniqid from 'uniqid';
 
 class SubmissionView extends React.Component{
     componentDidMount(){
@@ -87,12 +86,6 @@ class SubmissionView extends React.Component{
                     </tbody>
                 </table>
                 <br></br>
-                
-
-                {/* <ul className="collection with-header">
-                <li className="collection-header"><h4>Submission View</h4></li>
-                {this.renderContent()}
-                </ul> */}
 
                 <Router history={history}>
                         <Link to='/Submissions' className="red btn-flat white-text">

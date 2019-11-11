@@ -22,10 +22,21 @@ class SubmissionNew extends React.Component {
         this.props.postSubmission(res);
     }
 
+    getCategoryOptions = () =>{
+        const options = [];
+        _.map(this.props.products, product =>{
+            options.push({
+                value: product.category,
+                label: product.category
+            })
+        })
+        return _.uniqBy(options, 'value')
+    }
+
     render(){
         return(
             <div>
-                <SubmissionForm products={this.props.products} onSubmit={this.onSubmit} />
+                <SubmissionForm auth={this.props.auth} products={this.props.products} onSubmit={this.onSubmit} options={this.getCategoryOptions()} />
             </div>
         )
     }

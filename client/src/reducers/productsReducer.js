@@ -18,7 +18,7 @@ export default function(state = {}, action){
         case EDIT_PRODUCT:
             return {...state, [action.payload.id]: action.payload };
         case DELETE_PRODUCT:
-            return _.omit(state, action.payload);
+            return _.filter(state, function(o){ return o._id !== action.payload._id})
         default:
             return state;
     }

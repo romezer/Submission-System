@@ -12,8 +12,10 @@ import * as actions from '../actions';
  import ProductNew from './products/ProductNew';
  import BranchList from './branches/BranchList';
  import ProductEdit from './products/ProductEdit';
+ import ProductDelete from './products/ProductDelete';
  import SubmissionView from './submissions/SubmissionView';
  import SubmissionEdit from './submissions/SubmissionEdit';
+ import SubmissionDelete from './submissions/SubmissionDelete';
  import SubmissionThx from './submissions/SubmissionThx';
  import BranchNew from './branches/BranchNew';
  import BranchEdit from './branches/BranchEdit';
@@ -42,8 +44,10 @@ class App extends Component{
                         <Route exact path="/BranchEdit/:id" component={BranchEdit} />
                         <Route exact path="/Branches" component={BranchList} />
                         <Route exact path="/ProductEdit/:id" component={ProductEdit} />
+                        <Route exact path="/ProductDelete/:id" component={ProductDelete} />
                         <Route exact path="/SubmissionView/:id" component={SubmissionView} />
                         <Route exact path="/SubmissionEdit/:id" component={SubmissionEdit} />
+                        <Route exact path="/SubmissionDelete/:id" component={SubmissionDelete} />
                         <Route exact path="/SubmissionThx" component={SubmissionThx} />
                         <Route exact path="/Dashboard" component={Dashboard} />
                         

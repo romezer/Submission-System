@@ -3,7 +3,8 @@ import {
     POST_SUBMISSION,
     FETCH_SUBMISSION,
     FETCH_SUBMISSIONS,
-    EDIT_SUBMISSION
+    EDIT_SUBMISSION,
+    DELETE_SUBMISSION
     } from '../actions/types';
 
 export default function(state = {}, action){
@@ -16,6 +17,8 @@ export default function(state = {}, action){
             return {...state, [action.payload.id]: action.payload };
         case EDIT_SUBMISSION:
             return {...state, [action.payload.id]: action.payload };
+        case DELETE_SUBMISSION:
+            return _.filter(state, function(o){ return o._id !== action.payload.data._id})
         default:
             return state;
     }

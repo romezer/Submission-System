@@ -3,22 +3,15 @@ const passport = require('passport');
 module.exports = (app) => {
 
     app.post('/api/login', 
-        passport.authenticate('local', { failureRedirect: '/' }),
+        passport.authenticate('local', { failureRedirect: '/Login' }),
         function(req, res) {
-        // if(req.user.isAdmin){
-        //     console.log('Admin');
-        //     res.redirect('/');
-        // }else{
-        //   //  console.log('Not Admin');
-        //     res.redirect('/');
-        // }
 
-        res.redirect('/');
+        res.send();
     });
 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.redirect('/');
+        res.redirect('/Login');
     });
 
     app.get('/api/current_user', (req, res) => {

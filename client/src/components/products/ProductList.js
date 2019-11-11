@@ -16,11 +16,22 @@ class ProductsList extends React.Component{
             if(this.props.auth.isAdmin){
                 return(
                     <Router history={history}>
+                        
                         <div key="1" className="fixed-action-btn">
+                            <div className="section">
                             <Link to="/ProductNew" className="btn-floating btn-large red">
                                 <i key="2" className="material-icons">add</i>
                             </Link>
+                            </div>
+{/*                           
+                            <div className="section">
+                            <Link to="/ProductNew" className="btn-floating btn-large blue">
+                                <i key="3" className="material-icons">edit</i>
+                            </Link>
+                            </div> */}
+                           
                         </div>
+                        
                     </Router>
                 )
             }else{
@@ -30,13 +41,8 @@ class ProductsList extends React.Component{
     }
 
     renderTabelRows(){
-       const list = [];
        const sortedList =  _.sortBy(this.props.products, ['category'])
-       sortedList.map(product => {
-            if(product._id !== undefined){
-                 list.push(product);
-            }
-        })
+        const list = _.filter(sortedList, function(o){ return o._id !== undefined})
         return _.uniqBy(list, '_id').map( (product, i) =>{
             return(
                 <tr key={i}>
@@ -44,10 +50,14 @@ class ProductsList extends React.Component{
                     <td key={i + 2}>{product.serialNumber}</td>
                     <td key={i + 3}>{product.category}</td>
                     <td key={i + 4}>{product.description}</td>
-                    <td>
+                    <td key={i + 5}> 
                         <Router history={history}>
                                     <Link  to={`/ProductEdit/${product._id}`}>
                                         Edit
+                                    </Link>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Link to={`/ProductDelete/${product._id}`}>
+                                        Delete
                                     </Link>
                         </Router>
                     </td>
@@ -67,7 +77,7 @@ class ProductsList extends React.Component{
                         <th>Serial Number</th>
                         <th>Category</th>
                         <th>Description</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                         </tr>
                     </thead>
                         

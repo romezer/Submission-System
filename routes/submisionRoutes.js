@@ -60,6 +60,18 @@ module.exports = (app) => {
         
     });
 
+    app.delete('/api/submission/delete', requireLogin, requireAdmin, async (req, res, next) =>{
+        try{
+            const result = await db.deleteSubmission(req.body.id);
+            if(result){
+                res.send(req.body.submission);
+            }
+            next();
+        }catch(error){
+            next(error);
+        }
+    });
+
     app.get('/api/find/pending', requireLogin, requireAdmin, async (req, res, next) =>{
         try{
             const records = await db.getPengingSubmissionUsers();

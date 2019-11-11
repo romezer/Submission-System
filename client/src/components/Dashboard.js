@@ -1,28 +1,34 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { fetchUser } from '../actions';
+import { fetchUser, fetchProducts, fetchBranches } from '../actions';
 import _ from 'lodash';
 import Chart from 'chart.js';
 import uniqid from 'uniqid';
 
 class Dashboard extends React.Component{
-
+    _isMounted = false;
     state = {
-        list: []
+        list: [],
+        products: this.props.products,
+        branches: this.props.branches
     }
 
+   
+
   async componentDidMount(){
+      this.props.fetchProducts();
+      this.props.fetchBranches();
+        this._isMounted = true;
         this.props.fetchUser();
-        const products = await axios.get('/api/products');
-        const branches = await axios.get('/api/branches');
         const records = await axios.get('/api/find/pending');
         const list = _.filter(records.data, function(o){
             return o.userJoinSubs.length === 0 && o.username !== 'admin';
         });
-        this.setState({list});
         
-        if(this.state.list.length !== null && records.data.length !== null){
+        
+        if(this._isMounted && this.state.list.length !== null && records.data.length !== null){
+            this.setState({list});
             var char2 = document.getElementById('myChart2');
         new Chart(char2, {
             type: 'doughnut',
@@ -57,7 +63,7 @@ class Dashboard extends React.Component{
                 labels: ['Products', 'Branches'],
                 datasets: [{
                     label: 'Amount ',
-                    data: [products.data.length, branches.data.length],
+                    data: [this.props.products.length, this.props.branches.length],
                     backgroundColor: [
                         'rgba(255, 206, 86, 0.2)',
                         'rgba(75, 192, 192, 0.2)',
@@ -87,6 +93,10 @@ class Dashboard extends React.Component{
         }
         
     }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+      }
 
     renderList(){
         return(
@@ -160,8 +170,11 @@ class Dashboard extends React.Component{
     }
 }
 
-function mapStateToProps({ auth }){
-    return { auth };
+function mapStateToProps({ auth, products, branches }){
+    return { auth,
+             products: Object.values(products),
+             branches: Object.values(branches)
+            };
 }
 
-export default connect(mapStateToProps, { fetchUser })(Dashboard);
+export default connect(mapStateToProps, { fetchUser, fetchProducts, fetchBranches })(Dashboard);

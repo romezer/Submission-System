@@ -62,6 +62,23 @@ function updateSubmission(id, newSubmission){
     })
 }
 
+function deleteSubmission(id){
+    return new Promise(function (resolve, reject) {
+        MongoClient.connect(keys.mongoURI, {useNewUrlParser: true}, (error, client) => {
+            if(error){
+                reject('unable to connect');
+            }
+            const db = client.db('test');
+            var o_id = new ObjectId(id);
+            db.collection('submissions').deleteOne({_id: o_id}, function(error, result) {
+                if(error){ reject('unable to request'); }
+                resolve(result);
+            })
+            client.close();
+        });
+    })
+}
+
 function getSubmissions(){
     return new Promise(function (resolve, reject) {
         MongoClient.connect(keys.mongoURI, {useNewUrlParser: true}, (error, client) => {
@@ -85,6 +102,7 @@ function getSubmissions(){
     })
     
 }
+
 
 function getPengingSubmissionUsers(){
     return new Promise(function(resolve, reject){
@@ -144,6 +162,7 @@ module.exports = {
     getSubmission,
     updateSubmission,
     getSubmissions,
-    getPengingSubmissionUsers
+    getPengingSubmissionUsers,
+    deleteSubmission
 }
 

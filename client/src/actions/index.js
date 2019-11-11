@@ -11,7 +11,9 @@ import { FETCH_USER,
          POST_BRANCH,
          FETCH_BRANCHES,
          EDIT_BRANCH,
-         FETCH_BRANCH
+         FETCH_BRANCH,
+         DELETE_PRODUCT,
+         DELETE_SUBMISSION
        } from './types';
 import history from '../history';
 
@@ -56,6 +58,13 @@ export const editProduct = (id, formValues) => async dispatch => {
      dispatch({type: EDIT_PRODUCT, payload: res.data});
 }
 
+export const deleteProduct = id => async dispatch => {
+     const res = await axios.delete('/api/product', {data:{id}});
+     history.push('/Products');
+
+     dispatch({type: DELETE_PRODUCT, payload: res.data});     
+}
+
 export const postSubmission = (formValues) => async dispatch => {
      const res = await axios.post('/api/submission', formValues);
      // history.push('/Submissions');
@@ -81,6 +90,13 @@ export const editSubmission = (formValues) => async dispatch => {
      history.push('/Submissions');
 
      dispatch({ type:EDIT_SUBMISSION, payload: res.data })
+}
+
+export const deleteSubmission = (id, submission) => async dispatch => {
+     const res = await axios.delete('/api/submission/delete', {data:{id, submission}});
+     history.push('/Submissions');
+
+     dispatch({ type:DELETE_SUBMISSION, payload: res })
 }
 
 export const fetchBranches = () => async dispatch => {
