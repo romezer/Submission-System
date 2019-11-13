@@ -109,7 +109,7 @@ class CsvDownloader extends React.Component{
         return(
             <CSVLink
                 headers={headers}
-                 data={rows}
+                 data={_.sortBy(rows, 'Category')}
                  filename={this.props.name + '.csv'}
                  className='btn-small green'>
                     Export
