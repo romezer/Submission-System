@@ -41,6 +41,10 @@ class BranchList extends React.Component{
                             <Link to={`/BranchEdit/${branch._id}`}>
                                 Edit                            
                             </Link>
+                            &nbsp;&nbsp;&nbsp;
+                                    <Link to={`/BranchDelete/${branch._id}`}>
+                                        Delete
+                                    </Link>
                         </Router>
                     </td>
                 </tr>

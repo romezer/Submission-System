@@ -56,8 +56,8 @@ class SubmissionForm extends React.Component{
     renderSendButton = () =>{
         if(this.props.auth !== false){
             return(
-                <div className="fixed-action-btn">
-                        <button className="btn-floating btn-large green" type="submit">
+                <div className="fixed-action-btn" style={{left: 5}}>
+                        <button className="btn-floating btn-large waves-light" type="submit">
                         SEND
                         </button>
                     </div>
@@ -86,7 +86,7 @@ class SubmissionForm extends React.Component{
             return(
                     
                     <tr key={i + 1} style={{display: (this.state.selectedOption === null || f.length > 0 || this.state.selectedOption.length === 0) ? '' : 'none'}}>
-                        <td key={i + 2}>{product.serialNumber}</td>
+                        <td key={i + 2}>{_.trimStart(product.serialNumber,'700-')}</td>
                         <td key={i + 3}>{product.category}</td>
                         <td key={i + 4}>{product.description}</td>
                         <td key={i + 5}>
@@ -120,7 +120,7 @@ class SubmissionForm extends React.Component{
                         placeholder="בחר קטגוריית מוצר"
                     />
                 </div>
-
+              
                 <br></br>
                 <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
                     <table>

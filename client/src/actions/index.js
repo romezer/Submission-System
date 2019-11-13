@@ -13,7 +13,8 @@ import { FETCH_USER,
          EDIT_BRANCH,
          FETCH_BRANCH,
          DELETE_PRODUCT,
-         DELETE_SUBMISSION
+         DELETE_SUBMISSION,
+         DELETE_BRANCH
        } from './types';
 import history from '../history';
 
@@ -63,6 +64,13 @@ export const deleteProduct = id => async dispatch => {
      history.push('/Products');
 
      dispatch({type: DELETE_PRODUCT, payload: res.data});     
+}
+
+export const deleteBranch = id => async dispatch => {
+     const res = await axios.delete('/api/branch', {data:{id}});
+     history.push('/Branches');
+
+     dispatch({type: DELETE_BRANCH, payload: res.data});     
 }
 
 export const postSubmission = (formValues) => async dispatch => {

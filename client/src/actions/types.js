@@ -13,3 +13,4 @@ export const FETCH_BRANCHES = 'fetch_branches';
 export const POST_BRANCH = 'post_branch';
 export const EDIT_BRANCH = 'edit_branch';
 export const FETCH_BRANCH = 'fetch_branch';
+export const DELETE_BRANCH = 'delete_branch'

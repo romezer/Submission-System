@@ -3,7 +3,8 @@ import {
      FETCH_BRANCHES,
      POST_BRANCH,
      FETCH_BRANCH,
-     EDIT_BRANCH
+     EDIT_BRANCH,
+     DELETE_BRANCH
     } from '../actions/types';
 
 export default function(state = {}, action){
@@ -16,6 +17,8 @@ export default function(state = {}, action){
             return {...state, [action.payload.id]: action.payload }
         case EDIT_BRANCH:
             return {...state, [action.payload.id]: action.payload}
+        case DELETE_BRANCH:
+            return _.filter(state, function(o){ return o._id !== action.payload._id})
         default:
             return state;
     }

@@ -3,7 +3,6 @@ import { CSVLink } from "react-csv";
 import { connect } from 'react-redux';
 import { fetchProducts } from '../../actions';
 import moment from 'moment';
-import axios from 'axios';
 import _ from 'lodash';
 
 class CsvDownloader extends React.Component{
@@ -14,11 +13,17 @@ class CsvDownloader extends React.Component{
 
   async  componentDidMount(){
     this.props.fetchProducts();
-        // const records = await axios.get('/api/products');
-        // this.setState({
-        //     products: _.sortBy(records.data, ['category'])
-        // })
     }
+
+    static getDerivedStateFromProps(props, current_state) {
+        if (current_state.products.length !== props.products.length) {
+          return {
+            list: props.products,
+        
+          }
+        }
+        return null
+      }
  
 
     render(){
@@ -77,7 +82,7 @@ class CsvDownloader extends React.Component{
         rows.push(secondRow);
         
         // _.uniq(producstList)
-        this.state.products.map(product => {
+        this.props.products.map(product => {
             var row = {};
             _.set(row, 'Serial Number', product.serialNumber);
             row.Category = product.category;
@@ -105,7 +110,7 @@ class CsvDownloader extends React.Component{
             <CSVLink
                 headers={headers}
                  data={rows}
-                 filename={this.props.name}
+                 filename={this.props.name + '.csv'}
                  className='btn-small green'>
                     Export
                 </CSVLink>

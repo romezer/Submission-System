@@ -62,9 +62,7 @@ module.exports = app => {
 
     app.delete('/api/product', requireLogin, requireAdmin, async (req, res, next) =>{
         try{
-            console.log('req body: ' + JSON.stringify(req.body))
             const response = await Product.findByIdAndRemove(req.body.id);
-            console.log('RESPONSE: ' + JSON.stringify(response))
             res.send(response);
             next();
         }catch(error){

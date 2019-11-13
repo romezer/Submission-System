@@ -70,4 +70,15 @@ module.exports = app => {
             next(error);
         }
     });
+
+    app.delete('/api/branch', requireLogin, requireAdmin, async (req, res, next) =>{
+        try{
+            const response = await User.findByIdAndRemove(req.body.id);
+            res.send(response);
+            next();
+        }catch(error){
+            next(error);
+        }
+        
+    });
 }

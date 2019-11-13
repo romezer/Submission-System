@@ -13,7 +13,6 @@ class ProductEdit extends React.Component{
     }
 
     render(){
-        console.log('Product: ' + JSON.stringify(this.props.product))
         return(
             <div>
                 <h3>Edit Product</h3>
