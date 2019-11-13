@@ -82,6 +82,7 @@ class CsvDownloader extends React.Component{
         rows.push(secondRow);
         
         // _.uniq(producstList)
+        const dataRows = [];
         this.props.products.map(product => {
             var row = {};
             _.set(row, 'Serial Number', product.serialNumber);
@@ -99,8 +100,8 @@ class CsvDownloader extends React.Component{
                   
                 }
             })
-         
-            rows.push(row);
+            dataRows.push(row)
+            // rows.push(row);
             
            
         })
@@ -109,7 +110,7 @@ class CsvDownloader extends React.Component{
         return(
             <CSVLink
                 headers={headers}
-                 data={_.sortBy(rows, 'Category')}
+                 data={_.union(rows,_.sortBy(dataRows, 'Category'))}
                  filename={this.props.name + '.csv'}
                  className='btn-small green'>
                     Export
